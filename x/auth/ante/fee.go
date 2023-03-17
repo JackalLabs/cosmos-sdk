@@ -2,6 +2,7 @@ package ante
 
 import (
 	"fmt"
+	"strings"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -87,9 +88,10 @@ func (dfd DeductFeeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bo
 	msgs := tx.GetMsgs()
 	for _, msg := range msgs {
 		url := sdk.MsgTypeURL(msg)
-		if url == "/canine-chain.storage.MsgPostProof" {
+		if strings.Compare("/canine_chain.storage.MsgPostproof", url) == 0 {
 			c := sdk.NewInt64Coin(fee.GetDenomByIndex(0), 0)
 			fee = sdk.NewCoins(c)
+			break
 		}
 	}
 
