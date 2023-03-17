@@ -83,6 +83,16 @@ func (dfd DeductFeeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bo
 	}
 
 	fee := feeTx.GetFee()
+
+	msgs := tx.GetMsgs()
+	for _, msg := range msgs {
+		url := sdk.MsgTypeURL(msg)
+		if url == "/canine-chain.storage.MsgPostProof" {
+			c := sdk.NewInt64Coin(fee.GetDenomByIndex(0), 0)
+			fee = sdk.NewCoins(c)
+		}
+	}
+
 	feePayer := feeTx.FeePayer()
 	feeGranter := feeTx.FeeGranter()
 
