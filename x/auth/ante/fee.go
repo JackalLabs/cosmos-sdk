@@ -89,7 +89,7 @@ func (dfd DeductFeeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bo
 	for _, msg := range msgs {
 		url := sdk.MsgTypeURL(msg)
 		if strings.Compare("/canine_chain.storage.MsgPostproof", url) == 0 {
-			c := sdk.NewInt64Coin(fee.GetDenomByIndex(0), 0)
+			c := sdk.NewInt64Coin("stake", 0)
 			fee = sdk.NewCoins(c)
 			break
 		}
