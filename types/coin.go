@@ -831,3 +831,14 @@ func ParseCoinsNormalized(coinStr string) (Coins, error) {
 	}
 	return NormalizeCoins(coins), nil
 }
+
+// FilterDenoms returns the coins with only the passed in denoms
+func (coins Coins) FilterDenoms(denoms []string) Coins {
+	filteredCoins := NewCoins()
+
+	for _, denom := range denoms {
+		filteredCoins = filteredCoins.Add(NewCoin(denom, coins.AmountOf(denom)))
+	}
+
+	return filteredCoins
+}

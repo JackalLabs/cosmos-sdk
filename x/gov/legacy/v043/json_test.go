@@ -50,12 +50,15 @@ func TestMigrateJSON(t *testing.T) {
 	expected := `{
 	"deposit_params": {
 		"max_deposit_period": "0s",
-		"min_deposit": []
+		"min_deposit": [],
+		"min_expedited_deposit": [],
+		"min_initial_deposit_ratio": "0"
 	},
 	"deposits": [],
 	"proposals": [],
 	"starting_proposal_id": "0",
 	"tally_params": {
+		"expedited_threshold": "0",
 		"quorum": "0",
 		"threshold": "0",
 		"veto_threshold": "0"
@@ -118,6 +121,8 @@ func TestMigrateJSON(t *testing.T) {
 		}
 	],
 	"voting_params": {
+		"expedited_voting_period": "0s",
+		"proposal_voting_periods": [],
 		"voting_period": "0s"
 	}
 }`

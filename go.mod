@@ -10,7 +10,9 @@ require (
 	github.com/coinbase/rosetta-sdk-go v0.7.0
 	github.com/confio/ics23/go v0.7.0
 	github.com/cosmos/btcutil v1.0.4
+	github.com/cosmos/cosmos-proto v1.0.0-beta.3
 	github.com/cosmos/go-bip39 v1.0.0
+	github.com/cosmos/gogoproto v1.4.2
 	github.com/cosmos/iavl v0.19.4
 	github.com/cosmos/ledger-cosmos-go v0.11.1
 	github.com/gogo/gateway v1.1.0
@@ -38,7 +40,7 @@ require (
 	github.com/spf13/cobra v1.6.0
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.13.0
-	github.com/stretchr/testify v1.8.0
+	github.com/stretchr/testify v1.8.2
 	github.com/tendermint/btcd v0.1.1
 	github.com/tendermint/crypto v0.0.0-20191022145703-50d29ede1e15
 	github.com/tendermint/go-amino v0.16.0
@@ -126,7 +128,7 @@ require (
 )
 
 replace (
-	github.com/99designs/keyring => github.com/cosmos/keyring v1.1.7-0.20210622111912-ef00f8ac3d76
+	github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
 
 	// vendor ics23
 	github.com/confio/ics23/go => ./ics23/go

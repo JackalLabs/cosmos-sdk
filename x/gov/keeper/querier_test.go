@@ -63,6 +63,7 @@ func getQueriedProposals(
 	t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, querier sdk.Querier,
 	depositor, voter sdk.AccAddress, status types.ProposalStatus, page, limit int,
 ) []types.Proposal {
+
 	query := abci.RequestQuery{
 		Path: strings.Join([]string{custom, types.QuerierRoute, types.QueryProposals}, "/"),
 		Data: cdc.MustMarshalJSON(types.NewQueryProposalsParams(page, limit, status, voter, depositor)),
@@ -127,8 +128,7 @@ func getQueriedVote(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, queri
 }
 
 func getQueriedVotes(t *testing.T, ctx sdk.Context, cdc *codec.LegacyAmino, querier sdk.Querier,
-	proposalID uint64, page, limit int,
-) []types.Vote {
+	proposalID uint64, page, limit int) []types.Vote {
 	query := abci.RequestQuery{
 		Path: strings.Join([]string{custom, types.QuerierRoute, types.QueryVote}, "/"),
 		Data: cdc.MustMarshalJSON(types.NewQueryProposalVotesParams(proposalID, page, limit)),
@@ -160,7 +160,7 @@ func TestQueries(t *testing.T) {
 	depositParams, _, _ := getQueriedParams(t, ctx, legacyQuerierCdc, querier)
 
 	// TestAddrs[0] proposes (and deposits) proposals #1 and #2
-	proposal1, err := app.GovKeeper.SubmitProposal(ctx, tp)
+	proposal1, err := app.GovKeeper.SubmitProposal(ctx, tp, false)
 	require.NoError(t, err)
 	deposit1 := types.NewDeposit(proposal1.ProposalId, TestAddrs[0], oneCoins)
 	depositer1, err := sdk.AccAddressFromBech32(deposit1.Depositor)
@@ -170,7 +170,7 @@ func TestQueries(t *testing.T) {
 
 	proposal1.TotalDeposit = proposal1.TotalDeposit.Add(deposit1.Amount...)
 
-	proposal2, err := app.GovKeeper.SubmitProposal(ctx, tp)
+	proposal2, err := app.GovKeeper.SubmitProposal(ctx, tp, false)
 	require.NoError(t, err)
 	deposit2 := types.NewDeposit(proposal2.ProposalId, TestAddrs[0], consCoins)
 	depositer2, err := sdk.AccAddressFromBech32(deposit2.Depositor)
@@ -181,7 +181,7 @@ func TestQueries(t *testing.T) {
 	proposal2.TotalDeposit = proposal2.TotalDeposit.Add(deposit2.Amount...)
 
 	// TestAddrs[1] proposes (and deposits) on proposal #3
-	proposal3, err := app.GovKeeper.SubmitProposal(ctx, tp)
+	proposal3, err := app.GovKeeper.SubmitProposal(ctx, tp, false)
 	require.NoError(t, err)
 	deposit3 := types.NewDeposit(proposal3.ProposalId, TestAddrs[1], oneCoins)
 	depositer3, err := sdk.AccAddressFromBech32(deposit3.Depositor)

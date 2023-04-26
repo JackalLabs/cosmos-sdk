@@ -36,11 +36,9 @@ func (h *MockGovHooksReceiver) AfterProposalDeposit(ctx sdk.Context, proposalID 
 func (h *MockGovHooksReceiver) AfterProposalVote(ctx sdk.Context, proposalID uint64, voterAddr sdk.AccAddress) {
 	h.AfterProposalVoteValid = true
 }
-
 func (h *MockGovHooksReceiver) AfterProposalFailedMinDeposit(ctx sdk.Context, proposalID uint64) {
 	h.AfterProposalFailedMinDepositValid = true
 }
-
 func (h *MockGovHooksReceiver) AfterProposalVotingPeriodEnded(ctx sdk.Context, proposalID uint64) {
 	h.AfterProposalVotingPeriodEndedValid = true
 }
@@ -65,7 +63,7 @@ func TestHooks(t *testing.T) {
 	require.False(t, govHooksReceiver.AfterProposalVotingPeriodEndedValid)
 
 	tp := TestProposal
-	_, err := app.GovKeeper.SubmitProposal(ctx, tp)
+	_, err := app.GovKeeper.SubmitProposal(ctx, tp, false)
 	require.NoError(t, err)
 	require.True(t, govHooksReceiver.AfterProposalSubmissionValid)
 
@@ -76,7 +74,7 @@ func TestHooks(t *testing.T) {
 
 	require.True(t, govHooksReceiver.AfterProposalFailedMinDepositValid)
 
-	p2, err := app.GovKeeper.SubmitProposal(ctx, tp)
+	p2, err := app.GovKeeper.SubmitProposal(ctx, tp, false)
 	require.NoError(t, err)
 
 	activated, err := app.GovKeeper.AddDeposit(ctx, p2.ProposalId, addrs[0], minDeposit)
