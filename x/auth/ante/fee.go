@@ -85,14 +85,24 @@ func (dfd DeductFeeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bo
 
 	fee := feeTx.GetFee()
 
+	freeMessages := []string{"/canine_chain.storage.MsgPostproof", "/canine_chain.storage.MsgPostContract"}
+
 	msgs := tx.GetMsgs()
 	for _, msg := range msgs {
 		url := sdk.MsgTypeURL(msg)
-		if strings.Compare("/canine_chain.storage.MsgPostproof", url) == 0 {
-			c := sdk.NewInt64Coin("stake", 0)
-			fee = sdk.NewCoins(c)
+		shouldBeFree := false
+		for _, message := range freeMessages {
+			if strings.Compare(message, url) == 0 {
+				c := sdk.NewInt64Coin("stake", 0)
+				fee = sdk.NewCoins(c)
+				shouldBeFree = true
+				break
+			}
+		}
+		if shouldBeFree {
 			break
 		}
+
 	}
 
 	feePayer := feeTx.FeePayer()
